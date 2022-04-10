@@ -1,0 +1,19 @@
+region: "AS"
+
+database:
+  type: mysql
+
+  sqlite:
+    file: database.sqlite
+
+  mysql:
+    host: 45.134.8.163:3306
+    username: u13069_i1VS0tYall
+    password: "UYPM0wY.7@dm74zh1@WerqQc"
+    schema: s13069_practice
+
+  worker-limit: 2
+
+webhooks:
+  ban: "-"
+  reports: "-"

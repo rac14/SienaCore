@@ -1,0 +1,4 @@
+{
+  "staff": ["practice.bypass.chatcooldown", "practice.staff.chat", "practice.staff.notification"],
+  "commands": ["practice.command.flight", "practice.command.gamemode", "practice.command.gamemode_other"]
+}
