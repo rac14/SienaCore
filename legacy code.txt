@@ -1,0 +1,208 @@
+public function sendFFAForm(Player $player)
+    {
+        $form = new SimpleForm(function(Player $player, $data = null): void
+        {
+            $nodebuff = $this->plugin->getServer()->getLevelByName("nodebuff-ffa");
+            $gapple = $this->plugin->getServer()->getLevelByName("gapple-ffa");
+            $soup = $this->plugin->getServer()->getLevelByName("soup-ffa");
+            $combo = $this->plugin->getServer()->getLevelByName("combo-ffa");
+            $fist = $this->plugin->getServer()->getLevelByName("fist-ffa");
+            $resistance = $this->plugin->getServer()->getLevelByName("resistance-ffa");
+            $buildffa = $this->plugin->getServer()->getLevelByName("build-ffa");
+            $sumo = $this->plugin->getServer()->getLevelByName("sumo-ffa");
+
+            switch($data)
+            {
+                case "offline":
+                    $player->sendMessage("§cThis arena is in maintainance.");
+                break;
+            }
+        });
+
+        $nodebuff = $this->plugin->getServer()->getLevelByName("nodebuff-ffa");
+        $gapple = $this->plugin->getServer()->getLevelByName("gapple-ffa");
+        $soup = $this->plugin->getServer()->getLevelByName("soup-ffa");
+        $combo = $this->plugin->getServer()->getLevelByName("combo-ffa");
+        $fist = $this->plugin->getServer()->getLevelByName("fist-ffa");
+        $resistance = $this->plugin->getServer()->getLevelByName("resistance-ffa");
+        $buildffa = $this->plugin->getServer()->getLevelByName("build-ffa");
+        $sumo = $this->plugin->getServer()->getLevelByName("sumo-ffa");
+
+        if(!$this->plugin->getServer()->isLevelLoaded("nodebuff-ffa"))
+        {
+            $count1 = "§o§cThis arena is in maintainance...§r";
+            $c1 = "offline";
+        }else{
+            $totalnodebuff = count($this->plugin->getServer()->getLevelByName("nodebuff-ffa")->getPlayers());
+            $count1 = "Playing: " . $totalnodebuff;
+            $c1 = "nodebuff";
+        }
+
+        if(!$this->plugin->getServer()->isLevelLoaded("gapple-ffa"))
+        {
+            $count2 = "§o§cThis arena is in maintainance...§r";
+            $c2 = "offline";
+        }else {
+            $totalgapple = count($this->plugin->getServer()->getLevelByName("gapple-ffa")->getPlayers());
+            $count2 = "Playing: " . $totalgapple;
+            $c2 = "gapple";
+        }
+
+        if(!$this->plugin->getServer()->isLevelLoaded("combo-ffa"))
+        {
+            $count4 = "§o§cThis arena is in maintainance...§r";
+            $c4 = "offline";
+        }else{
+            $count4 = "Playing: " . count($combo->getPlayers());
+            $c4 = "combo";
+        }
+
+        if(!$this->plugin->getServer()->isLevelLoaded("resistance-ffa"))
+        {
+            $count5 = "§o§cThis arena is in maintainance...§r";
+            $c5 = "offline";
+        }else{
+            $count5 = "Playing: " . count($resistance->getPlayers());
+            $c5 = "resistance";
+        }
+
+        if(!$this->plugin->getServer()->isLevelLoaded("soup-ffa"))
+        {
+
+            $count6 = "§o§cThis arena is in maintainance...§r";
+            $c6 = "offline";
+        }else{
+            $count6 = "Playing: " . count($soup->getPlayers());
+            $c6 = "soup";
+        }
+
+        if(!$this->plugin->getServer()->isLevelLoaded("buildffa")){
+            $count7="§o§cThis arena is in maintainance...§r";
+            $c7="offline";
+        }else{
+            $count7="Playing: ".count($buildffa->getPlayers());
+            $c7="buildffa";
+        }
+        if(!$this->plugin->getServer()->isLevelLoaded("fist")){
+            $count8="§o§cThis arena is in maintainance...§r";
+            $c8="offline";
+        }else{
+            $count8="Playing: ".count($fist->getPlayers());
+            $c8="fist";
+        }
+
+        if(!$this->plugin->getServer()->isLevelLoaded("sumo-ffa"))
+        {
+            $count9 = "§o§cThis arena is in maintainance...§r";
+            $c9 = "offline";
+        }else{
+            $count9 = "Playing: " . count($sumo->getPlayers());
+            $c9 = "sumo";
+        }
+
+        $form->setTitle("§r§8FFA");
+
+        $form->setContent("§fSelect a FFA kit type:");
+
+        $form->addButton("§7NoDebuff§f \n" . $count1 . "", "textures/items/potion_bottle_splash_heal", $c1);
+        $form->addButton("§7BuildFFA§f \n" . $count7 . "", "textures/blocks/sandstone_bottom", $c7);
+        $form->addButton("§7Sumo§f \n" . $count9 . "", "textures/items/slimeball", $c9);
+        $form->addButton("§7Fist§f \n" . $count8 . "", "textures/items/beef_cooked", $c8);
+        $form->addButton("§7Resistance§f \n" . $count5 . "", "textures/items/beef_cooked", $c5);
+        $form->addButton("§7Combo§f \n" . $count4 . "", "textures/items/fish_pufferfish_raw", $c4);
+        $form->addButton("§7Soup§f \n" . $count6 . "", "textures/items/mushroom_stew", $c6);
+        $form->addButton("§7Gapple§f \n" . $count2 . "", "textures/items/apple_golden", $c2);
+
+        $form->addButton("§c« Back", -1, "", "back");
+
+        $player->sendForm($form);
+    }
+
+class VelvetPlayer extends Player {
+
+    public int $scoreboard = Scoreboard::NORMAL;
+    public int $flags = 0;
+
+    public int $deviceOS;
+    public int $inputMode;
+    public string $deviceID;
+    public string $deviceModel;
+
+    public int $chatCooldown = 0;
+    public int $gappleCooldown = 0;
+    public int $pearlCooldown = 0;
+    public array $clicks = [];
+
+    public function setFlag(int $flag) : void {
+        $this->flags ^= 1 << $flag;
+    }
+
+    public function hasFlag(int $flag) : bool {
+        return (bool)($this->flags & (1 << $flag));
+    }
+
+    public function setScoreboardType(int $type) : void {
+        $this->scoreboard = $type;
+        Scoreboard::getInstance()->remove($this);
+        Scoreboard::getInstance()->new($this);
+        Scoreboard::getInstance()->sendScoreboard(SessionManager::getInstance()->getSession($this));
+    }
+
+    public function newScoreboard() : void {
+        $this->scoreboard = Scoreboard::NORMAL;
+        Scoreboard::getInstance()->new($this);
+        Scoreboard::getInstance()->sendScoreboard(SessionManager::getInstance()->getSession($this));
+    }
+
+    public function calculateFallDamage(float $fallDistance): float{
+        return 0;
+    }
+
+    public function teleport(Vector3 $pos, ?float $yaw = null, ?float $pitch = null) : bool {
+        $t = parent::teleport($pos, $yaw, $pitch);
+        $this->broadcastMotion();
+        return $t;
+    }
+
+    public function canBeCollidedWith() : bool {
+        return parent::canBeCollidedWith() && !$this->hasFlag(Flags::VANISHED);
+    }
+
+    public function addClick() : void {
+        array_unshift($this->clicks, microtime(true));
+        if(count($this->clicks) >= 50) array_pop($this->clicks);
+    }
+
+    public function getClicks() : float {
+        $deltaTime = 1.0;
+        if(empty($this->clicks)) return 0.0;
+        $ct = microtime(true);
+        return round(count(array_filter($this->clicks, function(float $t) use ($deltaTime, $ct) : bool {
+            return ($ct - $t) <= $deltaTime;
+        })) / $deltaTime, 1);
+    }
+
+}
+
+public function getPing() : int {
+    return (parent::getPing() - 20) ?: mt_rand(1,5);
+}
+
+if(!$player->getLevel()->getName() === "build-ffa")
+        {
+            if($projectile instanceof ProjectileEnderPearl)
+            {
+                $ev->setCancelled(true);
+
+                if(!Session::getSession($player)->isEnderPearlCooldown())
+                {
+                    Utils::createEnderPearl($player);
+
+                    $this->plugin->getScheduler()->scheduleRepeatingTask(new PlayerPearlTask($this->plugin, $player), 1);
+
+                    $player->sendMessage(Utils::getPrefix() . "§cEnderpearl cooldown has started.");
+
+                    return;
+                }
+            }
+        }
